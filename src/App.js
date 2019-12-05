@@ -27,9 +27,31 @@ class App extends React.Component {
       id : Date.now(),
       completed: false
     }
-
     this.setState({
       todos: [...this.state.todos, newTodo]
+    })
+  }
+
+  toggleTodo = todoId => {
+  
+    this.setState({todos : this.state.todos.map(todo => {
+      if(todoId === todo.id){
+        console.log(todo)
+        return {
+          ...todo,
+          completed: !todo.completed
+        }
+      }
+      return todo;
+     })
+    })
+  }
+
+  clearCompleted = e => {
+    e.preventDefault();
+
+    this.setState({
+      todos: this.state.todos.filter(todo => !todo.completed)
     })
   }
   // you will need a place to store your state in this component.
@@ -39,8 +61,8 @@ class App extends React.Component {
     return (
       <div>
         <h2>Welcome to your Todo App!</h2>
-        <TodoList todos = {this.state.todos}/>
-        <TodoForm addTodo = {this.addTodo}/>
+        <TodoList todos = {this.state.todos} toggleTodo = {this.toggleTodo}/>
+        <TodoForm addTodo = {this.addTodo} clearCompleted = {this.clearCompleted}/>
       </div>
     );
   }
